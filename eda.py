@@ -1,51 +1,55 @@
-import numpy as np 
+import numpy as np
 import pandas as pd
 import streamlit as st
-from ydata_profiling import profilereport
+#from pandas_profiling import ProfileReport
+from ydata_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
 
+# Web App Title
 st.markdown('''
-            **Exploratorey Data Analysis App**
-            
-            This app created using the **pandas-Profiling Library** ''')
+# **The Exploratory DAta analysis App**
 
-with st.sidebar.header('1. Upload your csv data'):
-    uploaded_file = st.sidebar.file_uploader("upload your csv file",type=["csv"])
+
+
+
+---
+''')
+
+# Upload CSV data
+with st.sidebar.header('1. Upload your CSV data'):
+    uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
     st.sidebar.markdown("""
-                        [Example csv input file](https://raw.githubusercontent.com/dataprofessor/data/master/delaney_solubility_with_descriptors.csv)""")
-    
-    if uploaded_file is not None:
+[Example CSV input file](https://raw.githubusercontent.com/dataprofessor/data/master/delaney_solubility_with_descriptors.csv)
+""")
+
+# Pandas Profiling Report
+if uploaded_file is not None:
+    @st.cache_data
+    def load_csv():
+        csv = pd.read_csv(uploaded_file)
+        return csv
+    df = load_csv()
+    pr = ProfileReport(df, explorative=True)
+    st.header('**Input DataFrame**')
+    st.write(df)
+    st.write('---')
+    st.header('**Pandas Profiling Report**')
+    st_profile_report(pr)
+else:
+    st.info('Awaiting for CSV file to be uploaded.')
+    if st.button('Press to use Example Dataset'):
+        # Example data
         @st.cache_data
-        def load_csv():
-            csv = pd.read_csv(uploaded_file)
-            return csv
-        df = load_csv()
-        pr = profilereport(df,explorative=True)
-        st.header('**Input Dataframe**')
+        def load_data():
+            a = pd.DataFrame(
+                np.random.rand(100, 5),
+                columns=['a', 'b', 'c', 'd', 'e']
+            )
+            return a
+        df = load_data()
+        pr = ProfileReport(df, explorative=True)
+        st.header('**Input DataFrame**')
         st.write(df)
-        st.header('**pandas profiling report**')
+        st.write('---')
+        st.header('**Pandas Profiling Report**')
         st_profile_report(pr)
-    else:
-        st.info('Awaiting for csv file to be uploaded.')
-        if st.button('press to use sample dataset'):
-            @st.cache_data
-            def load_data():
-                a=pd.DataFrame(
-                    np.random.rand(100,5),
-                    columns=['a','b','c','d','e']
-                )
-                return a
-            df = load_data()
-            pr=profilereport(df,explorative=True)
-            st.write(df)
-            st.write('----')
-            st.header('**Pandas Profiling report')
-            st_profile_report(pr)
-            
-                    
-            
-            
-
-        
-    
-
