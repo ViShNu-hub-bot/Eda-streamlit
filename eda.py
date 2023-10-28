@@ -7,12 +7,14 @@ from streamlit_pandas_profiling import st_profile_report
 
 # Web App Title
 st.markdown('''
-# **The Exploratory DAta analysis App**
+# **The Exploratory Data analysis App**
 
 
+**Feel free to upload your data**
+
+ **developed by vishnu**
 
 
----
 ''')
 
 # Upload CSV data
