@@ -4,6 +4,7 @@ import streamlit as st
 #from pandas_profiling import ProfileReport
 from ydata_profiling import ProfileReport
 from streamlit_pandas_profiling import st_profile_report
+import webbrowser
 
 # Web App Title
 st.markdown('''
@@ -12,7 +13,7 @@ st.markdown('''
 
 **Feel free to upload your data**
 
- **developed by vishnu**
+ **Developed by vishnukanth.k**
 
 
 ''')
@@ -20,7 +21,7 @@ st.markdown('''
 # Upload CSV data
 with st.sidebar.header('1. Upload your CSV data'):
     uploaded_file = st.sidebar.file_uploader("Upload your input CSV file", type=["csv"])
-#Random data for reference
+#random Data scource
     st.sidebar.markdown("""
 [Example CSV input file](https://raw.githubusercontent.com/dataprofessor/data/master/delaney_solubility_with_descriptors.csv)
 """)
@@ -56,3 +57,6 @@ else:
         st.write('---')
         st.header('**Pandas Profiling Report**')
         st_profile_report(pr)
+linkedin_button_clicked = st.button("Connect With Me On LinkedIn")
+if linkedin_button_clicked:
+    webbrowser.open_new_tab("https://www.linkedin.com/in/vishnukanth-k-a5552327b/")    
